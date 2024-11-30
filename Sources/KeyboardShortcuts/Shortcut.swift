@@ -41,13 +41,16 @@ extension KeyboardShortcuts {
 		*/
 		public let carbonModifiers: Int
 
+		public let isSingleton: Bool
+
 		/**
 		Initialize from a strongly-typed key and modifiers.
 		*/
-		public init(_ key: Key, modifiers: NSEvent.ModifierFlags = []) {
+		public init(_ key: Key, modifiers: NSEvent.ModifierFlags = [], isSingleton: Bool = false) {
 			self.init(
 				carbonKeyCode: key.rawValue,
-				carbonModifiers: modifiers.carbon
+				carbonModifiers: modifiers.carbon,
+				isSingleton: isSingleton
 			)
 		}
 
@@ -82,9 +85,10 @@ extension KeyboardShortcuts {
 
 		You most likely don't need this.
 		*/
-		public init(carbonKeyCode: Int, carbonModifiers: Int = 0) {
+		public init(carbonKeyCode: Int, carbonModifiers: Int = 0, isSingleton: Bool = false) {
 			self.carbonKeyCode = carbonKeyCode
 			self.carbonModifiers = Self.normalizeModifiers(carbonModifiers)
+			self.isSingleton = isSingleton
 		}
 	}
 }

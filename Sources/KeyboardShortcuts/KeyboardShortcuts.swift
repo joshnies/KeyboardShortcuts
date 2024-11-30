@@ -437,7 +437,16 @@ public enum KeyboardShortcuts {
 	```
 	*/
 	public static func onKeyDown(for name: Name, action: @escaping () -> Void) {
-		legacyKeyDownHandlers[name, default: []].append(action)
+		guard let shortcut = getShortcut(for: name) else {
+			return
+		}
+
+		if shortcut.isSingleton {
+			legacyKeyDownHandlers[name] = [action]
+		} else {
+			legacyKeyDownHandlers[name, default: []].append(action)
+		}
+
 		registerShortcutIfNeeded(for: name)
 	}
 
@@ -463,7 +472,16 @@ public enum KeyboardShortcuts {
 	```
 	*/
 	public static func onKeyUp(for name: Name, action: @escaping () -> Void) {
-		legacyKeyUpHandlers[name, default: []].append(action)
+		guard let shortcut = getShortcut(for: name) else {
+			return
+		}
+
+		if shortcut.isSingleton {
+			legacyKeyUpHandlers[name] = [action]
+		} else {
+			legacyKeyUpHandlers[name, default: []].append(action)
+		}
+
 		registerShortcutIfNeeded(for: name)
 	}
 
